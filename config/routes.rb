@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   patch 'applications/:application_token', to: 'client_applications#update'
 
   post 'applications/:application_token/chats', to: 'chats#create'
+  get 'applications/:application_token/chats', to: 'chats#list'
   get 'applications/:application_token/chats/:chat_number', to: 'chats#show'
 
 end

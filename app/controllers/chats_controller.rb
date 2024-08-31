@@ -42,4 +42,21 @@ class ChatsController < ApplicationController
     end
   end
   
+  def list
+    begin
+        client_application = ClientApplication.find_by(token: params[:application_token])
+        if client_application.nil?
+          render json: { error: { code: 404, message: "Invalid token: Application not found" } }, status: :not_found
+          return
+        end
+
+        chat_data = Chat.where(client_application_id: client_application.id)
+                .as_json(only: [:chat_number, :messages_count])
+        render json: { data: chat_data }, status: :ok
+
+    rescue StandardError => e
+        render json: { error: { code: 500, message: "Internal server error" } }, status: :internal_server_error
+    end  
+  end
+
 end

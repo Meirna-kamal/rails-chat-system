@@ -1,0 +1,3 @@
+update_chats_count:
+  cron: '*/45 * * * *' # Every 30 minutes
+  class: 'UpdateChatsCountJob'

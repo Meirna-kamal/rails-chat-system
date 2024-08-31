@@ -37,9 +37,29 @@ class ClientApplicationsController < ApplicationController
     end
       
     def update
-
+      # Find the client application by token
+      @client_application = ClientApplication.find_by(token: params[:application_token])
+    
+      # Check if the application was found
+      if @client_application.nil?
+        render json: { error: { code: 404, message: "Client application not found" } }, status: :not_found
+        return
+      end
+    
+      # Validate presence of the name parameter
+      if params[:name].blank?
+        render json: { error: { code: 400, message: "Name is required" } }, status: :bad_request
+        return
+      end
+    
+      # Update the name attribute
+      if @client_application.update(name: params[:name])
+        render json: { data: { token: @client_application.token, name: @client_application.name } }, status: :ok
+      else
+        render json: { error: { code: 422, message: "Unable to update application. Please check your input and try again." } }, status: :unprocessable_entity
+      end
     end
-  
+      
     private
 
 end

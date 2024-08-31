@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   get 'applications/:application_token', to: 'client_applications#show'
   patch 'applications/:application_token', to: 'client_applications#update'
 
+  post 'applications/:application_token/chats', to: 'chats#create'
 end

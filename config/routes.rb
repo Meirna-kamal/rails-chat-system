@@ -5,11 +5,13 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   post 'applications', to: 'client_applications#create'
-  get 'applications/:application_token', to: 'client_applications#show'
   patch 'applications/:application_token', to: 'client_applications#update'
+  get 'applications/:application_token', to: 'client_applications#show'
 
   post 'applications/:application_token/chats', to: 'chats#create'
   get 'applications/:application_token/chats', to: 'chats#list'
   get 'applications/:application_token/chats/:chat_number', to: 'chats#show'
+
+  post 'applications/:application_token/chats/:chat_number', to: 'messages#create'
 
 end

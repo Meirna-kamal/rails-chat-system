@@ -1,5 +1,5 @@
 class ChatsController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:create, :show]
+  skip_before_action :verify_authenticity_token, only: [:create, :show, :list]
   
   def create
     begin

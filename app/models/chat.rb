@@ -1,5 +1,7 @@
 class Chat < ApplicationRecord
   belongs_to :client_application
+  has_many :messages, dependent: :destroy
+  
   before_validation :set_chat_number, on: :create
 
   validates :chat_number, presence: true, uniqueness: { scope: :client_application_id }

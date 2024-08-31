@@ -20,11 +20,22 @@ class ClientApplicationsController < ApplicationController
         end
     end
       
-          
+
     def show
-      
+      @client_application = ClientApplication.find_by(token: params[:application_token])
+    
+      if @client_application
+        render json: {
+          data: {
+            name: @client_application.name,
+            chats_count: @client_application.chats_count
+          }
+        }, status: :ok
+      else
+        render json: { error: { code: 404, message: "Application not found" } }, status: :not_found
+      end
     end
-  
+      
     def update
 
     end

@@ -13,5 +13,6 @@ Rails.application.routes.draw do
   get 'applications/:application_token/chats/:chat_number', to: 'chats#show'
 
   post 'applications/:application_token/chats/:chat_number', to: 'messages#create'
+  get 'applications/:application_token/chats/:chat_number/messages/:message_number', to: 'messages#show'
 
 end

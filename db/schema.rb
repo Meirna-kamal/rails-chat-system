@@ -32,17 +32,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_31_191307) do
 
   create_table "messages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "chat_id", null: false
-    t.bigint "client_application_id", null: false
     t.integer "message_number", null: false
     t.text "message_body", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["chat_id"], name: "index_messages_on_chat_id"
-    t.index ["client_application_id", "chat_id", "message_number"], name: "message_in_application_chat_idx", unique: true
-    t.index ["client_application_id"], name: "index_messages_on_client_application_id"
   end
 
   add_foreign_key "chats", "client_applications"
   add_foreign_key "messages", "chats"
-  add_foreign_key "messages", "client_applications"
 end

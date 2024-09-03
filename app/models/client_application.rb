@@ -1,6 +1,6 @@
 class ClientApplication < ApplicationRecord
     has_many :chats, dependent: :destroy
-    has_many :messages, dependent: :destroy
+    has_many :messages, through: :chat
 
     before_validation :generate_token, on: :create
 

@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
     skip_before_action :verify_authenticity_token, only: [:create]
   
     def create
-        # begin
+        begin
             if params[:message_body].blank?
                 render json: { error: { code: 400, message: "Message body is required" } }, status: :bad_request
                 return
@@ -30,9 +30,9 @@ class MessagesController < ApplicationController
                 render json: { error: { code: 422, message: "Unable to create message. Please check your input and try again." } }, status: :unprocessable_entity
             end
 
-        # rescue StandardError => e
-        #     render json: { error: { code: 500, message: "Internal server error" } }, status: :internal_server_error
-        # end
+        rescue StandardError => e
+            render json: { error: { code: 500, message: "Internal server error" } }, status: :internal_server_error
+        end
     end
     
 end

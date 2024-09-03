@@ -103,5 +103,28 @@ class MessagesController < ApplicationController
             render json: { error: { code: 500, message: "Internal server error" } }, status: :internal_server_error
         end
     end
+
+    def list
+        begin
+            client_application = ClientApplication.find_by(token: params[:application_token])
+            if client_application.nil?
+              render json: { error: { code: 404, message: "Invalid token: Application not found" } }, status: :not_found
+              return
+            end
+
+            chat = client_application.chats.find_by(chat_number: params[:chat_number])
+            if chat.nil?
+                render json: { error: {code:404,message:"Invalid chat number: Chat not found"}}, status: :not_found
+                return
+            end
+
+            messages_data = Message.where(chat_id: chat.id)
+                    .as_json(only: [:message_number, :message_body])
+            render json: { data: messages_data }, status: :ok
+    
+        rescue StandardError => e
+            render json: { error: { code: 500, message: "Internal server error" } }, status: :internal_server_error
+        end
+    end
     
 end

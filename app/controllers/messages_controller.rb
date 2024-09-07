@@ -127,4 +127,23 @@ class MessagesController < ApplicationController
         end
     end
     
+    def search
+        query = params[:query]
+
+        client_application = ClientApplication.find_by(token: params[:application_token])
+        if client_application.nil?
+          render json: { error: { code: 404, message: "Invalid token: Application not found" } }, status: :not_found
+          return
+        end
+
+        chat = client_application.chats.find_by(chat_number: params[:chat_number])
+        if chat.nil?
+            render json: { error: {code:404,message:"Invalid chat number: Chat not found"}}, status: :not_found
+            return
+        end
+
+        @results = Message.search_message_body(query,chat.id)
+        render json: @results
+    end
+    
 end

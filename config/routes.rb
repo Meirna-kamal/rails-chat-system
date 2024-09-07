@@ -17,4 +17,5 @@ Rails.application.routes.draw do
   get 'applications/:application_token/chats/:chat_number/messages/:message_number', to: 'messages#show'
   patch 'applications/:application_token/chats/:chat_number/messages/:message_number', to: 'messages#update'
 
+  get 'messages/search', to: 'messages#search'
 end

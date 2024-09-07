@@ -12,6 +12,8 @@ gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
 gem "bootsnap", require: false
 gem 'sidekiq'
 gem 'sidekiq-cron', '~> 1.0'
+gem 'elasticsearch-rails'
+gem 'elasticsearch-model'
 
 group :development, :test do
   gem "dotenv-rails", "~> 2.7.0"

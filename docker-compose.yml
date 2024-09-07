@@ -1,0 +1,66 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: RootPass321
+      MYSQL_DATABASE: chat_system_development
+      MYSQL_USER: ${DATABASE_USERNAME}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - myapp-network
+
+  redis:
+    image: redis:7.4.0
+    networks:
+      - myapp-network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.23
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - myapp-network
+
+  web:
+    build: .
+    command: bundle exec rails s -b '0.0.0.0' -p 3000
+    volumes:
+      - ".:/usr/src/app"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200 
+    networks:
+      - myapp-network
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - ".:/usr/src/app"
+    depends_on:
+      - redis
+      - db
+    environment:
+      - REDIS_URL=redis://redis:6379/1
+    networks:
+      - myapp-network
+
+volumes:
+  mysql_data:
+  es_data:
+
+networks:
+  myapp-network:

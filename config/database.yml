@@ -4,8 +4,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
-  socket: /var/run/mysqld/mysqld.sock
-
+  host: db
 development:
   <<: *default
   database: chat_system_development

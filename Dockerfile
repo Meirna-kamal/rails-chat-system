@@ -19,8 +19,17 @@ RUN curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearc
 # Copy the app
 COPY . .
 
+# Copy the entrypoint script into the image
+COPY entrypoint.sh /usr/bin/
+
+# Ensure the entrypoint script is executable
+RUN chmod +x /usr/bin/entrypoint.sh
+
 # Expose the port
 EXPOSE 3000
 
-# Start the Rails server
+# Set the entrypoint script
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
+
+# Default command to start the Rails server (overridable in docker-compose.yml)
 CMD ["rails", "server", "-b", "0.0.0.0"]

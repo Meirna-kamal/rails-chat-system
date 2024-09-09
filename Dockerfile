@@ -13,8 +13,8 @@ RUN curl -sS https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g yarn
 
-# Install Elasticsearch plugin (optional, if required)
-RUN curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.17.0-linux-x86_64.tar.gz
+# Install MySQL client
+RUN apt-get update && apt-get install -y default-mysql-client
 
 # Copy the app
 COPY . .

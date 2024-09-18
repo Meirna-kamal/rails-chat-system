@@ -16,7 +16,7 @@ gem 'elasticsearch-rails'
 gem 'elasticsearch-model'
 
 group :development, :test do
-  gem "dotenv-rails", "~> 2.7.0"
+  gem "dotenv-rails", "~> 3.1.4"
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ], require: "debug/prelude"
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
